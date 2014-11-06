@@ -6,22 +6,17 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.AlarmClock;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.TimePicker;
+
+import android.view.*;
+
+import android.widget.*;
+
+import java.util.*;
 
 import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.StringTokenizer;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -30,6 +25,8 @@ public class MainActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		//cast view object to type timePicker to enable change.
 		TimePicker tp = (TimePicker) findViewById(R.id.timePicker1);
 		tp.setIs24HourView(true);
 	}
@@ -54,23 +51,35 @@ public class MainActivity extends ActionBarActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	//generates list of times. On toggle of sleepNow()
 	public void sendMessage(View view) {
-		populateList(printCal(sleepNow()));     
+		populateList(printCal(sleepNow(), Calendar.getInstance().getTimeInMillis()));     
 	}
 
-	private void populateList(ArrayList<String> times){
+	//contains list of maps consiting of dual strings
+	//listView1 = main text; listView2 = subtext
+	private void populateList(List<Map<String, String>> times){
 		ListView lv = (ListView)findViewById(R.id.listView1);
-		final ArrayAdapter adapter = new ArrayAdapter(this,
-				android.R.layout.simple_list_item_1, times);
+		
+		//adapts our data structure to a list
+		SimpleAdapter adapter = new SimpleAdapter(this, times,
+				android.R.layout.simple_list_item_2,
+				
+				//assign values from hash table below
+				new String[] {"time", "sleep"},
+				new int[] {android.R.id.text1,
+				android.R.id.text2});
 		lv.setAdapter(adapter);
 
-
+		//Applies only to SleepNow() and WakeAt()
+		//listens to toggles on any list values (times)
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, final View view,
 					int position, long id) {
-				final String item = (String) parent.getItemAtPosition(position);
+				final Map<String, String> items = (Map<String, String>) parent.getItemAtPosition(position);
+				String item = items.get("time");
 				Intent openNewAlarm = new Intent(AlarmClock.ACTION_SET_ALARM);
 				openNewAlarm.putExtra(AlarmClock.EXTRA_HOUR, Integer.valueOf(item.split(":")[0]));
 				openNewAlarm.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
@@ -81,31 +90,63 @@ public class MainActivity extends ActionBarActivity {
 		});
 	}
 
-
+	//Toggle SleepAt button
 	public void sleepatpressed(View view){
 		TimePicker tp = (TimePicker) findViewById(R.id.timePicker1);
-		String temp = ("" + tp.getCurrentHour() + ":" + tp.getCurrentMinute());
-		populateList(printCal(sleepAt(temp)));
+		String temp = (tp.getCurrentHour() + ":" + tp.getCurrentMinute());
+
+		SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+		Date d = null;
+
+		try {
+			d = df.parse(temp);
+		} catch (ParseException ex) {
+			System.out.println("Failed to parse: " + temp);
+		}
+
+		Calendar sleepTime = Calendar.getInstance();
+		sleepTime.setTime(d);
+
+		populateList(printCal(sleepAt(temp), sleepTime.getTimeInMillis()));
 	}
-	
+
+	//Toggle WakeAt button
 	public void wakeatpressed(View view){
 		TimePicker tp = (TimePicker) findViewById(R.id.timePicker1);
 		String temp = ("" + tp.getCurrentHour() + ":" + tp.getCurrentMinute());
 		ListView lv = (ListView)findViewById(R.id.listView1);
-		final ArrayAdapter adapter = new ArrayAdapter(this,
-				android.R.layout.simple_list_item_1, printCal(sleepWhen(temp)));
+
+		SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+		Date d = null;
+
+		try {
+			d = df.parse(temp);
+		} catch (ParseException ex) {
+			System.out.println("Failed to parse: " + temp);
+		}
+
+		Calendar wakeTime = Calendar.getInstance();
+		wakeTime.setTime(d);
+
+		//WakeAt has its own adapter since list toggles don't affect alarm
+		SimpleAdapter adapter = new SimpleAdapter(this, printCal(sleepWhen(temp), wakeTime.getTimeInMillis()),
+				android.R.layout.simple_list_item_2,
+				new String[] {"time", "sleep"},
+				new int[] {android.R.id.text1,
+			android.R.id.text2});
 		lv.setAdapter(adapter);
 
-
+		//applies to sleepAt()
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, final View view,
 					int position, long id) {
+				final Map<String, String> items = (Map<String, String>) parent.getItemAtPosition(position);
+				String item = items.get("time");
+				Intent openNewAlarm = new Intent(AlarmClock.ACTION_SET_ALARM);
 				TimePicker tp = (TimePicker) findViewById(R.id.timePicker1);
 				String temp = ("" + tp.getCurrentHour() + ":" + tp.getCurrentMinute());
-				final String item = (String) parent.getItemAtPosition(position);
-				Intent openNewAlarm = new Intent(AlarmClock.ACTION_SET_ALARM);
 				openNewAlarm.putExtra(AlarmClock.EXTRA_HOUR, Integer.valueOf(temp.split(":")[0]));
 				openNewAlarm.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
 				openNewAlarm.putExtra(AlarmClock.EXTRA_MINUTES, Integer.valueOf(temp.split(":")[1]));
@@ -114,31 +155,8 @@ public class MainActivity extends ActionBarActivity {
 
 		});
 	}
-
-
-	public static void main(String[] args) {
-		String wakeUpStr = "07:00";
-		SimpleDateFormat df = new SimpleDateFormat("HH:mm");
-		Date d = null;
-
-		try {
-			d = df.parse(wakeUpStr);
-		} catch (ParseException ex) {
-			System.out.println("Failed to parse: " + wakeUpStr);
-		}
-
-		Calendar wakeUp = Calendar.getInstance();
-		wakeUp.setTime(d);
-
-		System.out.println("Sleep when if i want to wake up at 7:00");
-		//printCal(sleepWhen(wakeUp));
-		System.out.println("wake up when if i want to sleep now");
-		printCal(sleepNow());
-		System.out.println("wake up when if i want to sleep at 7:00");
-		// printCal(sleepAt(wakeUp));
-
-	}
-
+	
+	//alg for wakeat
 	public static ArrayList<Date> sleepWhen(String time) {
 		SimpleDateFormat df = new SimpleDateFormat("HH:mm");
 		Date d = null;
@@ -151,7 +169,8 @@ public class MainActivity extends ActionBarActivity {
 
 		Calendar wakeUp = Calendar.getInstance();
 		wakeUp.setTime(d);
-		
+
+		//Alg for main text (when to sleep)
 		Calendar timeToWake = Calendar.getInstance();
 		timeToWake.setTime(wakeUp.getTime());
 		ArrayList<Date> sleepTimes = new ArrayList<Date>();
@@ -165,6 +184,7 @@ public class MainActivity extends ActionBarActivity {
 		return sleepTimes;
 	}
 
+	//alg for sleepNow button
 	public static ArrayList<Date> sleepNow() {
 		Calendar bedtime = Calendar.getInstance();
 
@@ -181,21 +201,41 @@ public class MainActivity extends ActionBarActivity {
 		return wakeUpTimes;
 	}
 
-	private static ArrayList<String> printCal(ArrayList<Date> times) {
+	//alg for sleeptime. Calculates currenttime - chosentime (in milis)
+	//alg is applied through adapter
+	private static List<Map<String, String>> printCal(ArrayList<Date> times, long time) {
 
-		ArrayList<String> res = new ArrayList<String>();
+		List<Map<String, String>> res = new ArrayList<Map<String, String>>();
 
 		for (Date date : times) {
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(date);
+			long timeAsleep;
+			if (time > cal.getTimeInMillis()) {
+				timeAsleep = time - cal.getTimeInMillis();
+			} else {
+				timeAsleep = cal.getTimeInMillis() - time;
+			}
+			Calendar sleepTime = Calendar.getInstance();
+			sleepTime.setTimeInMillis(timeAsleep);
+			sleepTime.add(Calendar.HOUR, -1);
+
 			String res1 = new String("" + new DecimalFormat("00").format(cal.get(Calendar.HOUR_OF_DAY)) + ":"
 					+ new DecimalFormat("00").format(cal.get(Calendar.MINUTE)));
-			res.add(res1);
+			String res2 = new String("Sleeptime: " + sleepTime.get(Calendar.HOUR_OF_DAY) + "." + sleepTime.get(Calendar.MINUTE));
+
+			//Hashmap for the adapter values
+			//res1 = main text; res2 = subtext
+			Map<String, String> temp = new HashMap<String, String>(2);
+			temp.put("time", res1);
+			temp.put("sleep", res2);
+			res.add(temp);
 		}
 
 		return res;
 	}
-
+	
+	//alg for sleepAt button
 	private static ArrayList<Date> sleepAt(String time) {
 		SimpleDateFormat df = new SimpleDateFormat("HH:mm");
 		Date d = null;
@@ -213,6 +253,7 @@ public class MainActivity extends ActionBarActivity {
 		Calendar timeToSleep = Calendar.getInstance();
 		timeToSleep.setTime(wakeUp.getTime());
 		ArrayList<Date> wakeUpTimes = new ArrayList<Date>();
+		
 		for (int i = 0; i < 6; i++) {
 			timeToSleep.add(Calendar.MINUTE, 90);
 			if (i == 0 || i > 2) {
