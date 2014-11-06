@@ -87,6 +87,33 @@ public class MainActivity extends ActionBarActivity {
 		String temp = ("" + tp.getCurrentHour() + ":" + tp.getCurrentMinute());
 		populateList(printCal(sleepAt(temp)));
 	}
+	
+	public void wakeatpressed(View view){
+		TimePicker tp = (TimePicker) findViewById(R.id.timePicker1);
+		String temp = ("" + tp.getCurrentHour() + ":" + tp.getCurrentMinute());
+		ListView lv = (ListView)findViewById(R.id.listView1);
+		final ArrayAdapter adapter = new ArrayAdapter(this,
+				android.R.layout.simple_list_item_1, printCal(sleepWhen(temp)));
+		lv.setAdapter(adapter);
+
+
+		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, final View view,
+					int position, long id) {
+				TimePicker tp = (TimePicker) findViewById(R.id.timePicker1);
+				String temp = ("" + tp.getCurrentHour() + ":" + tp.getCurrentMinute());
+				final String item = (String) parent.getItemAtPosition(position);
+				Intent openNewAlarm = new Intent(AlarmClock.ACTION_SET_ALARM);
+				openNewAlarm.putExtra(AlarmClock.EXTRA_HOUR, Integer.valueOf(temp.split(":")[0]));
+				openNewAlarm.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+				openNewAlarm.putExtra(AlarmClock.EXTRA_MINUTES, Integer.valueOf(temp.split(":")[1]));
+				startActivity(openNewAlarm);
+			}
+
+		});
+	}
 
 
 	public static void main(String[] args) {
@@ -104,7 +131,7 @@ public class MainActivity extends ActionBarActivity {
 		wakeUp.setTime(d);
 
 		System.out.println("Sleep when if i want to wake up at 7:00");
-		printCal(sleepWhen(wakeUp));
+		//printCal(sleepWhen(wakeUp));
 		System.out.println("wake up when if i want to sleep now");
 		printCal(sleepNow());
 		System.out.println("wake up when if i want to sleep at 7:00");
@@ -112,9 +139,21 @@ public class MainActivity extends ActionBarActivity {
 
 	}
 
-	public static ArrayList<Date> sleepWhen(Calendar time) {
+	public static ArrayList<Date> sleepWhen(String time) {
+		SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+		Date d = null;
+
+		try {
+			d = df.parse(time);
+		} catch (ParseException ex) {
+			System.out.println("Failed to parse: " + time);
+		}
+
+		Calendar wakeUp = Calendar.getInstance();
+		wakeUp.setTime(d);
+		
 		Calendar timeToWake = Calendar.getInstance();
-		timeToWake.setTime(time.getTime());
+		timeToWake.setTime(wakeUp.getTime());
 		ArrayList<Date> sleepTimes = new ArrayList<Date>();
 		for (int i = 0; i < 6; i++) {
 			timeToWake.add(Calendar.MINUTE, -90);
@@ -191,5 +230,3 @@ public class MainActivity extends ActionBarActivity {
 
 
 }
-
-
