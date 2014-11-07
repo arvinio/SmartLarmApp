@@ -1,0 +1,57 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.smartlarmapp.StartScreen" >
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="640dp"
+        android:layout_height="820dp"
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="17dp"
+        android:src="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="122dp"
+        android:text="Wake up refreshed."
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <Button
+        android:id="@+id/bSleepNow"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_alignLeft="@+id/bWakeAt"
+        android:layout_below="@+id/bWakeAt"
+        android:layout_marginTop="35dp"
+        android:text="Sleep at..." />
+
+    <Button
+        android:id="@+id/bSleepAt"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_alignLeft="@+id/bSleepNow"
+        android:layout_below="@+id/bSleepNow"
+        android:layout_marginTop="35dp"
+        android:text="Wake up at..." />
+
+    <Button
+        android:id="@+id/bWakeAt"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_alignLeft="@+id/logo"
+        android:layout_below="@+id/logo"
+        android:layout_marginTop="35dp"
+        android:text="Sleep Now" />
+
+</RelativeLayout>

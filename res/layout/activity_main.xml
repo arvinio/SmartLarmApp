@@ -42,7 +42,7 @@
         android:layout_below="@+id/timePicker1"
         android:layout_toLeftOf="@+id/button1"
         android:onClick="sleepatpressed"
-        android:text="SleepAt" />
+        android:text="Bedtime" />
 
     <Button
         android:id="@+id/wakeatpressed"
@@ -51,6 +51,18 @@
         android:layout_above="@+id/listView1"
         android:layout_toRightOf="@+id/button1"
         android:onClick="wakeatpressed"
-        android:text="WakeAt" />
+        android:text="Wake By" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/timePicker1"
+        android:layout_alignLeft="@+id/sleepatpressed"
+        android:onClick="iBedTime"
+        android:text="Sets what time you want to sleep"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#333"
+        android:textStyle="bold|italic" />
 
 </RelativeLayout>

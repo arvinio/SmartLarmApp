@@ -4,15 +4,13 @@ import java.util.Calendar;
 import android.support.v7.app.ActionBarActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.AlarmClock;
-
 import android.view.*;
-
 import android.widget.*;
 
 import java.util.*;
-
 import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -70,7 +68,7 @@ public class MainActivity extends ActionBarActivity {
 				new int[] {android.R.id.text1,
 				android.R.id.text2});
 		lv.setAdapter(adapter);
-
+		
 		//Applies only to SleepNow() and WakeAt()
 		//listens to toggles on any list values (times)
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -109,6 +107,8 @@ public class MainActivity extends ActionBarActivity {
 
 		populateList(printCal(sleepAt(temp), sleepTime.getTimeInMillis()));
 	}
+	
+	//public void 
 
 	//Toggle WakeAt button
 	public void wakeatpressed(View view){
@@ -174,11 +174,11 @@ public class MainActivity extends ActionBarActivity {
 		Calendar timeToWake = Calendar.getInstance();
 		timeToWake.setTime(wakeUp.getTime());
 		ArrayList<Date> sleepTimes = new ArrayList<Date>();
-		for (int i = 0; i < 6; i++) {
+		
+		//loop for 90m intervals
+		for (int i = 0; i < 10; i++) {
 			timeToWake.add(Calendar.MINUTE, -90);
-			if (i > 1) {
-				sleepTimes.add(timeToWake.getTime());
-			}
+			sleepTimes.add(timeToWake.getTime());
 		}
 
 		return sleepTimes;
@@ -192,7 +192,8 @@ public class MainActivity extends ActionBarActivity {
 
 		ArrayList<Date> wakeUpTimes = new ArrayList<Date>();
 
-		for (int i = 0; i < 6; i++) {
+		//loop for 90m intervals
+		for (int i = 0; i < 10; i++) {
 			bedtime.add(Calendar.MINUTE, 90);
 			//if (bedtime.getTime().compareTo(timeToWake.getTime()) > 0)
 			wakeUpTimes.add(bedtime.getTime());
@@ -220,9 +221,10 @@ public class MainActivity extends ActionBarActivity {
 			sleepTime.setTimeInMillis(timeAsleep);
 			sleepTime.add(Calendar.HOUR, -1);
 
+			//displays sleeptime
 			String res1 = new String("" + new DecimalFormat("00").format(cal.get(Calendar.HOUR_OF_DAY)) + ":"
 					+ new DecimalFormat("00").format(cal.get(Calendar.MINUTE)));
-			String res2 = new String("Sleeptime: " + sleepTime.get(Calendar.HOUR_OF_DAY) + "." + sleepTime.get(Calendar.MINUTE));
+			String res2 = new String("Sleeptime: " + sleepTime.get(Calendar.HOUR_OF_DAY) + "h " + sleepTime.get(Calendar.MINUTE) + "m");
 
 			//Hashmap for the adapter values
 			//res1 = main text; res2 = subtext
@@ -254,11 +256,10 @@ public class MainActivity extends ActionBarActivity {
 		timeToSleep.setTime(wakeUp.getTime());
 		ArrayList<Date> wakeUpTimes = new ArrayList<Date>();
 		
-		for (int i = 0; i < 6; i++) {
+		//loop for 90m intervals
+		for (int i = 0; i < 10; i++) {
 			timeToSleep.add(Calendar.MINUTE, 90);
-			if (i == 0 || i > 2) {
-				wakeUpTimes.add(timeToSleep.getTime());
-			}
+			wakeUpTimes.add(timeToSleep.getTime());
 		}
 		return wakeUpTimes;
 	}
