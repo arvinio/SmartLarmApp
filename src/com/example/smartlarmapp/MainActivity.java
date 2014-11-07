@@ -136,7 +136,7 @@ public class MainActivity extends ActionBarActivity {
 			android.R.id.text2});
 		lv.setAdapter(adapter);
 
-		//applies to sleepAt()
+		//applies to WakeAt()
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			@Override

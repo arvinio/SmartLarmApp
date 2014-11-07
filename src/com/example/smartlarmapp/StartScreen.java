@@ -1,11 +1,17 @@
 package com.example.smartlarmapp;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import android.support.v7.app.ActionBarActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.AlarmClock;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TimePicker;
 
@@ -32,12 +38,17 @@ public class StartScreen extends ActionBarActivity {
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
-			Intent openMain = new Intent(this, MainActivity.class);
-			startActivity(openMain);
+			
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	//Toggle sleepNow button
+		public void sleepNow(View view){
+			Intent openSleepNow = new Intent(this, SleepNow.class);
+			startActivity(openSleepNow);
+		}
 	
 	
 }

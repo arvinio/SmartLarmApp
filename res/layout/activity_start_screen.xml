@@ -28,7 +28,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <Button
-        android:id="@+id/bSleepNow"
+        android:id="@+id/bSleepAt"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:layout_alignLeft="@+id/bWakeAt"
@@ -37,7 +37,7 @@
         android:text="Sleep at..." />
 
     <Button
-        android:id="@+id/bSleepAt"
+        android:id="@+id/bWakeAt"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:layout_alignLeft="@+id/bSleepNow"
@@ -46,12 +46,13 @@
         android:text="Wake up at..." />
 
     <Button
-        android:id="@+id/bWakeAt"
+        android:id="@+id/bSleepNow"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:layout_alignLeft="@+id/logo"
         android:layout_below="@+id/logo"
         android:layout_marginTop="35dp"
+        android:onClick="sleepNow"
         android:text="Sleep Now" />
 
 </RelativeLayout>
