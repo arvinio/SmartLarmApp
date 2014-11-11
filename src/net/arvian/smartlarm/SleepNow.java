@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.AlarmClock;
@@ -121,12 +123,40 @@ public class SleepNow extends Activity {
 			public void onItemClick(AdapterView<?> parent, final View view,
 					int position, long id) {
 				final Map<String, String> items = (Map<String, String>) parent.getItemAtPosition(position);
-				String item = items.get("time");
-				Intent openNewAlarm = new Intent(AlarmClock.ACTION_SET_ALARM);
-				openNewAlarm.putExtra(AlarmClock.EXTRA_HOUR, Integer.valueOf(item.split(":")[0]));
-				openNewAlarm.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
-				openNewAlarm.putExtra(AlarmClock.EXTRA_MINUTES, Integer.valueOf(item.split(":")[1]));
-				startActivity(openNewAlarm);
+				final String item = items.get("time");
+				
+				AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+
+			    builder.setTitle("Confirm");
+			    builder.setMessage("Are you sure you want to set the alarm to " + item + "?");
+
+			    builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+			        public void onClick(DialogInterface dialog, int which) {
+			        	Intent openNewAlarm = new Intent(AlarmClock.ACTION_SET_ALARM);
+						openNewAlarm.putExtra(AlarmClock.EXTRA_HOUR, Integer.valueOf(item.split(":")[0]));
+						openNewAlarm.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+						openNewAlarm.putExtra(AlarmClock.EXTRA_MINUTES, Integer.valueOf(item.split(":")[1]));
+						openNewAlarm.putExtra(AlarmClock.EXTRA_MESSAGE, "Smartlarm");
+						startActivity(openNewAlarm);
+			            dialog.dismiss();
+			        }
+
+			    });
+
+			    builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+			        @Override
+			        public void onClick(DialogInterface dialog, int which) {
+			            // Do nothing
+			            dialog.dismiss();
+			        }
+			    });
+
+			    AlertDialog alert = builder.create();
+			    alert.show();
+				
+				
 			}
 
 		});
