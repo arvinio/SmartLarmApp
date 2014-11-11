@@ -67,10 +67,11 @@ public class SleepNow extends Activity {
 				sleepTime.setTimeInMillis(timeAsleep);
 				sleepTime.add(Calendar.HOUR, -1);
 
-				//displays sleeptime
+				//displays amount of sleep
 				String res1 = new String("" + new DecimalFormat("00").format(cal.get(Calendar.HOUR_OF_DAY)) + ":"
 						+ new DecimalFormat("00").format(cal.get(Calendar.MINUTE)));
-				String res2 = new String("Sleeptime: " + sleepTime.get(Calendar.HOUR_OF_DAY) + "h " + sleepTime.get(Calendar.MINUTE) + "m");
+				
+				String res2 = new String("Gives " + sleepTime.get(Calendar.HOUR_OF_DAY) + "h " + sleepTime.get(Calendar.MINUTE) + "m of sleep");
 
 				//Hashmap for the adapter values
 				//res1 = main text; res2 = subtext
