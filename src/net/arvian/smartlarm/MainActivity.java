@@ -1,26 +1,26 @@
 package net.arvian.smartlarm;
+import java.util.Calendar;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.provider.AlarmClock;
+import android.view.*;
+import android.widget.*;
+
+import java.util.*;
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.provider.AlarmClock;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.TimePicker;
-
+<<<<<<< HEAD
+/* TODO add title etc */
+=======
+/* This is a temp class containing all logic*/
+>>>>>>> 64bc27f964dd2dbf06c2d7a4f87d63ca4c501bca
 public class MainActivity extends Activity {
 
 	@Override
