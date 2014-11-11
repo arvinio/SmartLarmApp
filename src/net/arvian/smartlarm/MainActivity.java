@@ -16,7 +16,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-
+/* TODO add title etc */
 public class MainActivity extends Activity {
 
 	@Override
