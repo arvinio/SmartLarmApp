@@ -1,4 +1,4 @@
-package com.example.smartlarmapp;
+package net.arvian.smartlarm;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.AlarmClock;
@@ -19,7 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-public class SleepNow extends ActionBarActivity {
+public class SleepNow extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +94,7 @@ public class SleepNow extends ActionBarActivity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		if (id == R.string.action_settings) {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
