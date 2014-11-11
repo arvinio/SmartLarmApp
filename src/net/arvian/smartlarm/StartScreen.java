@@ -36,11 +36,19 @@ public class StartScreen extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	//Toggle sleepNow button
-		public void sleepNow(View view){
-			Intent openSleepNow = new Intent(this, SleepNow.class);
-			startActivity(openSleepNow);
-		}
+	//menu buttons
+	public void sleepNow(View view){
+		Intent openSleepNow = new Intent(this, SleepNow.class);
+		startActivity(openSleepNow);
+	}
 	
+	public void sleepAt(View view){
+		Intent openSleepNow = new Intent(this, MainActivity.class);
+		startActivity(openSleepNow);
+	}
 	
+	public void wakeAt(View view){
+		Intent openSleepNow = new Intent(this, MainActivity.class);
+		startActivity(openSleepNow);
+	}
 }

@@ -34,6 +34,7 @@
         android:layout_alignLeft="@+id/bWakeAt"
         android:layout_below="@+id/bWakeAt"
         android:layout_marginTop="35dp"
+        android:onClick="sleepAt"
         android:text="Sleep at..." />
 
     <Button
@@ -43,6 +44,7 @@
         android:layout_alignLeft="@+id/bSleepNow"
         android:layout_below="@+id/bSleepNow"
         android:layout_marginTop="35dp"
+        android:onClick="wakeAt"
         android:text="Wake up at..." />
 
     <Button
