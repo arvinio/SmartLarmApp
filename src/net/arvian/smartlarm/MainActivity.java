@@ -16,7 +16,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-
+/* This is a temp class containing all logic*/
 public class MainActivity extends Activity {
 
 	@Override
