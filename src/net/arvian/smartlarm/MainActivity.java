@@ -16,7 +16,11 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+<<<<<<< HEAD
 /* TODO add title etc */
+=======
+/* This is a temp class containing all logic*/
+>>>>>>> 64bc27f964dd2dbf06c2d7a4f87d63ca4c501bca
 public class MainActivity extends Activity {
 
 	@Override
