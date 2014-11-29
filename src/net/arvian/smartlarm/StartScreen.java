@@ -38,17 +38,20 @@ public class StartScreen extends Activity {
 	
 	//menu buttons
 	public void sleepNow(View view){
-		Intent openSleepNow = new Intent(this, SleepNow.class);
+		Intent openSleepNow = new Intent(this, PickTime.class);
+		openSleepNow.putExtra("method", "sleepnow");
 		startActivity(openSleepNow);
 	}
 	
 	public void sleepAt(View view){
-		Intent openSleepNow = new Intent(this, SleepAtTime.class);
+		Intent openSleepNow = new Intent(this, SetTime.class);
+		openSleepNow.putExtra("method", "sleepat");
 		startActivity(openSleepNow);
 	}
 	
 	public void wakeAt(View view){
-		Intent openSleepNow = new Intent(this, WakeAtTime.class);
+		Intent openSleepNow = new Intent(this, SetTime.class);
+		openSleepNow.putExtra("method", "wakeat");
 		startActivity(openSleepNow);
 	}
 }

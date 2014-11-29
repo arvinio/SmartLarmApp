@@ -8,21 +8,31 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TimePicker;
 
-public class SleepAtTime extends Activity {
+public class SetTime extends Activity {
 
+	String method;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_sleep_at_time);
+		setContentView(R.layout.activity_set_time);
 		
 		TimePicker tp = (TimePicker) findViewById(R.id.timePicker1);
 		tp.setIs24HourView(true);
+		
+		method = getIntent().getExtras().getString("method");
+		
+		if (method.equals("sleepat")) {
+			setTitle("Sleep at...");
+		} else if (method.equals("wakeat")) {
+			setTitle("Wake up at...");
+		}
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.sleep_at_time, menu);
+		
 		return true;
 	}
 
@@ -42,8 +52,9 @@ public class SleepAtTime extends Activity {
 		TimePicker tp = (TimePicker) findViewById(R.id.timePicker1);
 		String time = (tp.getCurrentHour() + ":" + tp.getCurrentMinute());
 		
-		Intent openSleepNow = new Intent(this, SleepAtPicker.class);
+		Intent openSleepNow = new Intent(this, PickTime.class);
 		openSleepNow.putExtra("alarm", time);
+		openSleepNow.putExtra("method", method);
 		startActivity(openSleepNow);
 	}
 }
