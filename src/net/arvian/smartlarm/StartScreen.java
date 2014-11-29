@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 
 public class StartScreen extends Activity {
 
@@ -14,7 +13,6 @@ public class StartScreen extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_start_screen);
-		ImageView image = (ImageView) findViewById(R.id.logo);
 	}
 
 	@Override

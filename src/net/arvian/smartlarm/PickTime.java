@@ -24,7 +24,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 public class PickTime extends Activity {
 
@@ -52,7 +51,7 @@ public class PickTime extends Activity {
             populateList(printCal(sleepNow(), Calendar.getInstance().getTimeInMillis()));
         } else {
             String alarm = getIntent().getExtras().getString("alarm");
-            SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+            SimpleDateFormat df = new SimpleDateFormat("HH:mm", java.util.Locale.getDefault());
             Date d = null;
 
             try {
@@ -104,7 +103,6 @@ public class PickTime extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.sleep_at_picker, menu);
         return true;
     }
 
@@ -175,7 +173,7 @@ public class PickTime extends Activity {
 
     //alg for wakeat
     public static ArrayList<Date> sleepWhen(String time) {
-        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm", java.util.Locale.getDefault());
         Date d = null;
 
         try {
@@ -203,7 +201,7 @@ public class PickTime extends Activity {
 
     //alg for sleepAt button
     private static ArrayList<Date> sleepAt(String time) {
-        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm", java.util.Locale.getDefault());
         Date d = null;
 
         try {
@@ -245,12 +243,13 @@ public class PickTime extends Activity {
         //listens to toggles on any list values (times)
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            @Override
+            @SuppressWarnings("unchecked")
+			@Override
             public void onItemClick(AdapterView<?> parent, final View view,
                     int position, long id) {
                 final Map<String, String> items = (Map<String, String>) parent.getItemAtPosition(position);
                 final String item = items.get("time");
-                Intent openNewAlarm = new Intent(AlarmClock.ACTION_SET_ALARM);
+                new Intent(AlarmClock.ACTION_SET_ALARM);
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
                 builder.setTitle("Confirm");
@@ -289,7 +288,7 @@ public class PickTime extends Activity {
     public void setAlarm(View view) {
         final String alarm = getIntent().getExtras().getString("alarm");
 
-        Intent openNewAlarm = new Intent(AlarmClock.ACTION_SET_ALARM);
+        new Intent(AlarmClock.ACTION_SET_ALARM);
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
         builder.setTitle("Confirm");
