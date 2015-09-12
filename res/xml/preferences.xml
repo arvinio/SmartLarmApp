@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory android:title="Alarm settings">
+	    android:layout="@layout/settings_layout"
+		<CheckBoxPreference android:key="24hr"
+			android:defaultValue="true" android:summary="Untick to use AM/PM instead"
+			android:title="24hr clock" android:layout="@layout/settings_layout" />
+		<net.arvian.smartlarm.NumberPickerPreference
+			android:title="Sleep Now delay" android:summary="Delayed by "
+			android:key="fall_asleep_time" android:defaultValue="14" 
+			android:layout="@layout/settings_layout" />
+	</PreferenceCategory>
+	<!-- 
+	<PreferenceCategory android:title="App settings">
+	    android:layout="@layout/settings_layout" 
+		<net.arvian.smartlarm.ListPreferenceWithListener android:title="Language"
+				android:summary="%s" android:key="language" android:defaultValue="en"
+				android:entries="@array/listArray" android:entryValues="@array/listValues"
+				android:layout="@layout/settings_layout" />
+	</PreferenceCategory>
+	-->
+</PreferenceScreen>

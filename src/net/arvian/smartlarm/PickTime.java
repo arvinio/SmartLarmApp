@@ -6,15 +6,20 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.AlarmClock;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,7 +53,7 @@ public class PickTime extends Activity {
             // update title
             setTitle("Set alarm");
         	
-            populateList(printCal(sleepNow(), Calendar.getInstance().getTimeInMillis()));
+            populateList(printCal(sleepNow(getApplicationContext()), new GregorianCalendar().getTimeInMillis()));
         } else {
             String alarm = getIntent().getExtras().getString("alarm");
             SimpleDateFormat df = new SimpleDateFormat("HH:mm", java.util.Locale.getDefault());
@@ -60,7 +65,7 @@ public class PickTime extends Activity {
                 System.out.println("Failed to parse: " + alarm);
             }
 
-            Calendar chosenTime = Calendar.getInstance();
+            Calendar chosenTime = new GregorianCalendar();
             chosenTime.setTime(d);
 
             if (method.equals("wakeat")) {
@@ -118,24 +123,21 @@ public class PickTime extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    //alg for sleeptime. Calculates currenttime - chosentime (in milis)
-    //alg is applied through adapter
+    // calculate alarm times, wakeup times and sleeptime
+    // returns as strings in hashmap
     private static List<Map<String, String>> printCal(ArrayList<Date> times, long time) {
 
         List<Map<String, String>> res = new ArrayList<Map<String, String>>();
-
+        
+        Calendar sleepTime = new GregorianCalendar();
+        sleepTime.set(Calendar.MINUTE, 0);
+        sleepTime.set(Calendar.HOUR_OF_DAY, 0);
+        
         for (Date date : times) {
-            Calendar cal = Calendar.getInstance();
+            Calendar cal = new GregorianCalendar();
             cal.setTime(date);
-            long timeAsleep;
-            if (time > cal.getTimeInMillis()) {
-                timeAsleep = time - cal.getTimeInMillis();
-            } else {
-                timeAsleep = cal.getTimeInMillis() - time;
-            }
-            Calendar sleepTime = Calendar.getInstance();
-            sleepTime.setTimeInMillis(timeAsleep);
-            sleepTime.add(Calendar.HOUR, -1);
+            
+            sleepTime.add(Calendar.MINUTE, 90);
 
             //displays sleeptime
             String res1 = new String("" + new DecimalFormat("00").format(cal.get(Calendar.HOUR_OF_DAY)) + ":"
@@ -154,10 +156,13 @@ public class PickTime extends Activity {
     }
 
     //alg for sleepNow button
-    public static ArrayList<Date> sleepNow() {
-        Calendar bedtime = Calendar.getInstance();
+    public static ArrayList<Date> sleepNow(Context cntxt) {
+        Calendar bedtime = new GregorianCalendar();
 
-        bedtime.add(Calendar.MINUTE, 14); // takes 14 min to sleep
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(cntxt);
+		int delay = settings.getInt("fall_asleep_time", 14);
+        
+        bedtime.add(Calendar.MINUTE, delay); // takes 14 min to sleep
 
         ArrayList<Date> wakeUpTimes = new ArrayList<Date>();
 
@@ -182,11 +187,11 @@ public class PickTime extends Activity {
             System.out.println("Failed to parse: " + time);
         }
 
-        Calendar wakeUp = Calendar.getInstance();
+        Calendar wakeUp = new GregorianCalendar();
         wakeUp.setTime(d);
 
         //Alg for main text (when to sleep)
-        Calendar timeToWake = Calendar.getInstance();
+        Calendar timeToWake = new GregorianCalendar();
         timeToWake.setTime(wakeUp.getTime());
         ArrayList<Date> sleepTimes = new ArrayList<Date>();
 
@@ -210,10 +215,10 @@ public class PickTime extends Activity {
             System.out.println("Failed to parse: " + time);
         }
 
-        Calendar wakeUp = Calendar.getInstance();
+        Calendar wakeUp = new GregorianCalendar();
         wakeUp.setTime(d);
 
-        Calendar timeToSleep = Calendar.getInstance();
+        Calendar timeToSleep = new GregorianCalendar();
         timeToSleep.setTime(wakeUp.getTime());
         ArrayList<Date> wakeUpTimes = new ArrayList<Date>();
 

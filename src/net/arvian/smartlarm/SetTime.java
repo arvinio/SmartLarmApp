@@ -1,8 +1,12 @@
 package net.arvian.smartlarm;
 
+import java.text.DecimalFormat;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +22,10 @@ public class SetTime extends Activity {
 		setContentView(R.layout.activity_set_time);
 		
 		TimePicker tp = (TimePicker) findViewById(R.id.timePicker1);
-		tp.setIs24HourView(true);
+		
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+		boolean timemode = settings.getBoolean("24hr", true);
+		tp.setIs24HourView(timemode);
 		
 		method = getIntent().getExtras().getString("method");
 		
@@ -49,7 +56,7 @@ public class SetTime extends Activity {
 	
 	public void next(View view){
 		TimePicker tp = (TimePicker) findViewById(R.id.timePicker1);
-		String time = (tp.getCurrentHour() + ":" + tp.getCurrentMinute());
+		String time = (new DecimalFormat("00").format(tp.getCurrentHour()) + ":" + new DecimalFormat("00").format(tp.getCurrentMinute()));
 		
 		Intent openSleepNow = new Intent(this, PickTime.class);
 		openSleepNow.putExtra("alarm", time);

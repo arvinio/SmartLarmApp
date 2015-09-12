@@ -24,7 +24,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="122dp"
-        android:text="Wake up refreshed."
+        android:text="@string/slogan"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <Button
@@ -32,29 +32,32 @@
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:layout_alignLeft="@+id/bWakeAt"
+        android:layout_alignStart="@+id/bWakeAt"
         android:layout_below="@+id/bWakeAt"
         android:layout_marginTop="35dp"
         android:onClick="sleepAt"
-        android:text="Sleep at..." />
+        android:text="@string/sleep_at_button" />
 
     <Button
         android:id="@+id/bWakeAt"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:layout_alignLeft="@+id/bSleepNow"
+        android:layout_alignStart="@+id/bSleepNow"
         android:layout_below="@+id/bSleepNow"
         android:layout_marginTop="35dp"
         android:onClick="wakeAt"
-        android:text="Wake up at..." />
+        android:text="@string/wake_up_at_button" />
 
     <Button
         android:id="@+id/bSleepNow"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:layout_alignLeft="@+id/logo"
+        android:layout_alignStart="@+id/logo"
         android:layout_below="@+id/logo"
         android:layout_marginTop="35dp"
         android:onClick="sleepNow"
-        android:text="Sleep Now" />
+        android:text="@string/sleep_now_button" />
 
 </RelativeLayout>

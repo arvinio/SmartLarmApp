@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="slogan">BIDAR SHO RAHAT.</string>
+    <string name="app_name">SmartLarm</string>
+    <string name="action_settings">CHIZ MIZ</string>
+    <string name="title_activity_start_screen">AVALE KAR</string>
+    <string name="title_activity_pick_time">VAKHT ENTEKHAB</string>
+    <string name="title_activity_set_time">ALARM ENTEKHAB</string>
+    <string name="preferences">CHIZ MIZ</string>
+    <string name="sleep_now_button">BEKAP ALLAN</string>
+    <string name="wake_up_at_button">BIDAR SHO IN VAKHT\.\.\.</string>
+    <string name="sleep_at_button">BEKAP IN VAKHT\.\.\.</string>
+</resources>
