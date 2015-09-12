@@ -46,14 +46,18 @@ public class PickTime extends Activity {
             Button button = (Button) findViewById(R.id.button1);
             button.setVisibility(View.GONE);
 
+            // get the delay value
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+    		int delay = settings.getInt("fall_asleep_time", 14);
+            
             // update text
             TextView txt = (TextView) findViewById(R.id.textView1);
-            txt.setText("If you sleep now, you should wake up at one of the following times for optimal sleep time. " +  System.getProperty ("line.separator") + System.getProperty ("line.separator") + "Touch one of the following times to set the alarm.");
+            txt.setText("If you sleep now, you should wake up at one of the following times for optimal sleep time. " +  System.getProperty ("line.separator") + System.getProperty ("line.separator") + "The app will assume it takes " + delay + " minutes for you to fall asleep from now, you can change this in the settings." + System.getProperty ("line.separator") + System.getProperty ("line.separator") + "Touch one of the following times to set the alarm.");
 
             // update title
             setTitle("Set alarm");
         	
-            populateList(printCal(sleepNow(getApplicationContext()), new GregorianCalendar().getTimeInMillis()));
+            populateList(printCal(sleepNow(delay), new GregorianCalendar().getTimeInMillis()));
         } else {
             String alarm = getIntent().getExtras().getString("alarm");
             SimpleDateFormat df = new SimpleDateFormat("HH:mm", java.util.Locale.getDefault());
@@ -156,12 +160,9 @@ public class PickTime extends Activity {
     }
 
     //alg for sleepNow button
-    public static ArrayList<Date> sleepNow(Context cntxt) {
+    public static ArrayList<Date> sleepNow(int delay) {
         Calendar bedtime = new GregorianCalendar();
 
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(cntxt);
-		int delay = settings.getInt("fall_asleep_time", 14);
-        
         bedtime.add(Calendar.MINUTE, delay); // takes 14 min to sleep
 
         ArrayList<Date> wakeUpTimes = new ArrayList<Date>();
