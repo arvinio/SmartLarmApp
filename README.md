@@ -1,6 +1,8 @@
 SmartLarmApp
 ============
 
+**Available on the [Play Store](https://play.google.com/store/apps/details?id=net.arvian.smartlarm)**
+
 Goal: Create a **smart** alarm clock app.
 Wake up refreshed. Calculates bedtime based on the average human sleep cycle.
 Set your alarm without exiting the app!
